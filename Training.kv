@@ -1,0 +1,348 @@
+#Training.kv
+<MainPage>
+    name: 'main'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Button:
+            font_size: 40
+            text: '本日のトレーニングを追加'
+            on_release:
+                root.go_to_today_training()
+                app.root.transition.direction = 'left'
+                app.root.current = 'history'
+        Button:
+            font_size: 40
+            text: '履歴'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'calender'
+
+<CalenderPage>:
+    name: 'calender'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Button:
+            size_hint_x: None
+            width: 200
+            size_hint_y: None
+            height: 80
+            font_size: 30
+            text: '< 戻る'
+            on_release:
+                app.root.transition.direction = 'right'
+                app.root.current = 'main'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 50
+
+            Button:
+                font_size: 30
+                text: '<'
+                on_press: root.ids.calendar_widget.previous_month()
+
+            Button:
+                font_size: 30
+                text: '>'
+                on_press: root.ids.calendar_widget.next_month()
+
+        Label:
+            size_hint_y: None
+            height: 50
+            font_size: 30
+            text: root.ids.calendar_widget.month_label_text
+
+        CalendarWidget:
+            id: calendar_widget
+
+<AddTrainingPage>:
+    name: 'addtraining'
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            id: addtraining_label
+            size_hint_y: None
+            height: 50
+
+        Label:
+            id: date_label
+            size_hint_y: None
+            height: 50
+
+        Label:
+            id: body_part_label
+            size_hint_y: None
+            height: 50
+
+        Label:
+            id: error_message
+            size_hint_y: None
+            height: 50
+            color: 1, 0, 0, 1 # 赤色
+
+        ScrollView:
+            GridLayout:
+                id: sets_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+        Button:
+            text: 'セットを増やす'
+            size_hint_y: None
+            height: 100
+            on_release: root.add_set()
+
+        Button:
+            text: '保存'
+            size_hint_y: None
+            height: 100
+            on_release: root.save_record()
+
+        Button:
+            text: '< 戻る'
+            size_hint_y: None
+            height: 100
+            on_release:
+                app.root.transition.direction = 'right'
+                app.root.current = 'bodypart'
+
+
+<HistoryPage>
+    name: 'history'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Button:
+            size_hint_x: None
+            width: 200
+            size_hint_y: None
+            height: 80
+            font_size: 30
+            text: '< 戻る'
+            on_release:
+                app.root.transition.direction = 'right'
+                app.root.current = 'main'
+
+        Label:
+            size_hint_x: None
+            width: 300
+            size_hint_y: None
+            height: 150
+            font_size: 40
+            id: date_label
+            text: ' '
+
+        ScrollView:
+            BoxLayout:
+                id: history_layout
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+
+        Button:
+            size_hint_y: None
+            height: 200
+            text: '新たに記録を追加する'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'bodypart'
+
+<SelectExercisePage>
+    name: 'bodypart'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 80
+            
+            Button:
+                size_hint_x: None
+                width: 200
+                size_hint_y: None
+                height: 80
+                text: '< 戻る'
+                on_release: 
+                    app.root.transition.direction = 'right'
+                    app.root.current = 'history'
+            Label:
+                size_hint_y: None
+                height: 80
+                text: '部位の選択'
+
+            Label:
+                size_hint_x: None
+                width: 200
+                size_hint_y: None
+                height: 80
+                text: '　　'
+
+        Button:
+            text: '胸'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'chest'
+        Button:
+            text: '背中'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'back'
+        Button:
+            text: '脚'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'leg'
+        Button:
+            text: '肩'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'shoulder'
+        Button:
+            text: '腕'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'arm'
+        Button:
+            text: 'その他'
+            on_release:
+                app.root.transition.direction = 'left'
+                app.root.current = 'others'
+
+<ExerciseName>
+    BoxLayout:
+        orientation: 'vertical'
+        
+        BoxLayout:
+            size_hint_y: None
+            height: 80
+
+            Button: 
+                size_hint_x: None
+                width: 200
+                text: '< 戻る'
+                on_release:
+                    app.root.transition.direction = 'right'
+                    app.root.current = 'bodypart'
+            
+            Label:
+                text: '種目の選択'
+
+            Label:
+                size_hint_x: None
+                width: 200
+                text: '　　'
+
+        
+        Label:
+            id: title_label
+            size_hint_y: None
+            height: 100
+
+        ScrollView:
+            GridLayout:
+                id: data_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+        BoxLayout:
+            size_hint_y: None
+            height: 100
+
+            Button:
+                text: '種目を追加'
+                size_hint_y: None
+                height: 100
+                font_size: 50
+                on_press:
+                    app.root.get_screen('addexercise').previous_screen = root.name
+                    app.root.get_screen('addexercise').previous_screen_db_name = root.db_name
+                    app.root.get_screen('addexercise').previous_screen_table_name = root.table_name
+                    app.root.transition.direction = 'left'
+                    app.root.current = 'addexercise'
+
+            Button:
+                text: '種目を削除'
+                size_hint_y: None
+                height: 100
+                font_size: 50
+                on_press: root.delete_exercise()
+
+<AddExercisePage>
+    name: 'add'
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            size_hint_y: None
+            height: 200
+            text: '　'
+
+        Label:
+            size_hint_y: None
+            height: 100
+            text: '種目を追加'
+
+        TextInput:
+            size_hint_y: None
+            height: 100
+            id: exercise_name
+            hint_text: '種目名を入力'
+            multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 100
+
+            Button:
+                text: '追加'
+                on_release:
+                    root.add_exercise(exercise_name.text)
+                    app.root.transition.direction = 'right'
+                    app.root.current = root.previous_screen
+
+            Button:
+                text: 'キャンセル'
+                on_release:
+                    app.root.transition.direction = 'right'
+                    app.root.current = root.previous_screen
+            
+        Label:
+            size_hint_y: None
+            height: 450
+            text: ' '
+
+<DeleteExercisePage>:
+    name: 'delete'
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: '削除する種目を選択してください'
+            size_hint_y: None
+            height: 100
+
+        ScrollView:
+            GridLayout:
+                id: data_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+        BoxLayout:
+            size_hint_y: None
+            height: 100
+
+            Button:
+                text: 'キャンセル'
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = root.previous_screen
